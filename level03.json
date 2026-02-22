@@ -1,0 +1,195 @@
+{
+  "version": 1,
+  "name": "Slow And Steady",
+  "maze": {
+    "width": 800,
+    "height": 1000,
+    "maze_top": 80,
+    "maze_bottom": 940,
+    "maze_left": 50,
+    "maze_right": 600
+  },
+  "walls": [
+    {
+      "x1": 50,
+      "y1": 80,
+      "x2": 50,
+      "y2": 940,
+      "thickness": 6,
+      "elasticity": 0.5,
+      "friction": 0.4
+    },
+    {
+      "x1": 600,
+      "y1": 80,
+      "x2": 600,
+      "y2": 940,
+      "thickness": 6,
+      "elasticity": 0.5,
+      "friction": 0.4
+    }
+  ],
+  "platforms": [
+    {
+      "x1": 450.0,
+      "y1": 190.0,
+      "x2": 140.0,
+      "y2": 790.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 430.0,
+      "y1": 180.0,
+      "x2": 560.0,
+      "y2": 200.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 600.0,
+      "y1": 230.0,
+      "x2": 470.0,
+      "y2": 240.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 405.0,
+      "y1": 285.0,
+      "x2": 560.0,
+      "y2": 290.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 595.0,
+      "y1": 335.0,
+      "x2": 420.0,
+      "y2": 350.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 350.0,
+      "y1": 390.0,
+      "x2": 560.0,
+      "y2": 400.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 600.0,
+      "y1": 440.0,
+      "x2": 360.0,
+      "y2": 450.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 300.0,
+      "y1": 480.0,
+      "x2": 560.0,
+      "y2": 490.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 600.0,
+      "y1": 530.0,
+      "x2": 310.0,
+      "y2": 540.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 250.0,
+      "y1": 580.0,
+      "x2": 560.0,
+      "y2": 590.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 595.0,
+      "y1": 640.0,
+      "x2": 250.0,
+      "y2": 650.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 190.0,
+      "y1": 690.0,
+      "x2": 560.0,
+      "y2": 700.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 600.0,
+      "y1": 740.0,
+      "x2": 205.0,
+      "y2": 755.0,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 140,
+      "y1": 790,
+      "x2": 550,
+      "y2": 800,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    },
+    {
+      "x1": 550,
+      "y1": 800,
+      "x2": 550,
+      "y2": 890,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
+    }
+  ],
+  "pegs": [],
+  "buckets": {
+    "height": 45,
+    "entries": [
+      {
+        "width_fraction": 0.9090909090909091,
+        "score": 5,
+        "label": "5"
+      },
+      {
+        "width_fraction": 0.09090909090909094,
+        "score": 0,
+        "label": "+1"
+      }
+    ]
+  },
+  "spawn": {
+    "y_offset": 15,
+    "x_spread": 120
+  },
+  "gravity": [
+    0,
+    900
+  ],
+  "ball_radius": 8,
+  "ball_limit": 80
+}

@@ -1,0 +1,473 @@
+{
+  "version": 1,
+  "name": "Waterfall",
+  "maze": {
+    "width": 800,
+    "height": 1000,
+    "maze_top": 80,
+    "maze_bottom": 940,
+    "maze_left": 50,
+    "maze_right": 600
+  },
+  "walls": [
+    {
+      "x1": 50,
+      "y1": 80,
+      "x2": 50,
+      "y2": 940,
+      "thickness": 6,
+      "elasticity": 0.5,
+      "friction": 0.4
+    },
+    {
+      "x1": 600,
+      "y1": 80,
+      "x2": 600,
+      "y2": 940,
+      "thickness": 6,
+      "elasticity": 0.5,
+      "friction": 0.4
+    }
+  ],
+  "platforms": [],
+  "pegs": [
+    {
+      "x": 80,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 110,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 140,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 170,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 200,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 230,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 260,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 290,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 320,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 350,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 380,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 410,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 440,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 470,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 500,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 530,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 560,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 590,
+      "y": 840,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 330,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 360,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 390,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 420,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 450,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 480,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 510,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 540,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 570,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 300,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 270,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 240,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 210,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 180,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 150,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 120,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 90,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 60,
+      "y": 810,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 340,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 370,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 400,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 430,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 460,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 490,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 520,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 550,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 580,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 310,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 280,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 250,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 220,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 190,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 160,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 130,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 100,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    },
+    {
+      "x": 70,
+      "y": 780,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.3
+    }
+  ],
+  "buckets": {
+    "height": 45,
+    "entries": [
+      {
+        "width_fraction": 0.22545454545454546,
+        "score": 1,
+        "label": "1"
+      },
+      {
+        "width_fraction": 0.1109090909090909,
+        "score": 5,
+        "label": "5"
+      },
+      {
+        "width_fraction": 0.08363636363636362,
+        "score": 10,
+        "label": "10"
+      },
+      {
+        "width_fraction": 0.052727272727272734,
+        "score": 20,
+        "label": "20"
+      },
+      {
+        "width_fraction": 0.04909090909090913,
+        "score": 0,
+        "label": "+1"
+      },
+      {
+        "width_fraction": 0.054545454545454564,
+        "score": 20,
+        "label": "20"
+      },
+      {
+        "width_fraction": 0.07454545454545447,
+        "score": 10,
+        "label": "10"
+      },
+      {
+        "width_fraction": 0.11090909090909096,
+        "score": 5,
+        "label": "5"
+      },
+      {
+        "width_fraction": 0.23818181818181816,
+        "score": 1,
+        "label": "1"
+      }
+    ]
+  },
+  "spawn": {
+    "y_offset": 15,
+    "x_spread": 120
+  },
+  "gravity": [
+    0,
+    900
+  ],
+  "ball_radius": 8,
+  "ball_limit": 80
+}

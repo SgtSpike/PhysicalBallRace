@@ -1,0 +1,826 @@
+{
+  "version": 1,
+  "name": "Sparse Plains",
+  "maze": {
+    "width": 800,
+    "height": 1000,
+    "maze_top": 80,
+    "maze_bottom": 940,
+    "maze_left": 50,
+    "maze_right": 600
+  },
+  "walls": [
+    {
+      "x1": 50,
+      "y1": 80,
+      "x2": 50,
+      "y2": 940,
+      "thickness": 6,
+      "elasticity": 0.5,
+      "friction": 0.4
+    },
+    {
+      "x1": 600,
+      "y1": 80,
+      "x2": 600,
+      "y2": 940,
+      "thickness": 6,
+      "elasticity": 0.5,
+      "friction": 0.4
+    }
+  ],
+  "platforms": [
+    {
+      "x1": 157.0,
+      "y1": 175.0,
+      "x2": 323.0,
+      "y2": 145.0,
+      "thickness": 4,
+      "elasticity": 0.32,
+      "friction": 0.45
+    },
+    {
+      "x1": 330.0,
+      "y1": 145.0,
+      "x2": 510.0,
+      "y2": 175.0,
+      "thickness": 4,
+      "elasticity": 0.5,
+      "friction": 0.54
+    },
+    {
+      "x1": 420.5,
+      "y1": 240.0,
+      "x2": 599.5,
+      "y2": 200.0,
+      "thickness": 4,
+      "elasticity": 0.53,
+      "friction": 0.53
+    },
+    {
+      "x1": 317.2,
+      "y1": 357.2,
+      "x2": 402.8,
+      "y2": 482.8,
+      "thickness": 4,
+      "elasticity": 0.36,
+      "friction": 0.55
+    },
+    {
+      "x1": 60.0,
+      "y1": 250.0,
+      "x2": 190.0,
+      "y2": 280.0,
+      "thickness": 4,
+      "elasticity": 0.45,
+      "friction": 0.36
+    },
+    {
+      "x1": 230.0,
+      "y1": 470.0,
+      "x2": 318.0,
+      "y2": 357.0,
+      "thickness": 4,
+      "elasticity": 0.46,
+      "friction": 0.51
+    },
+    {
+      "x1": 445.5,
+      "y1": 604.0,
+      "x2": 594.5,
+      "y2": 576.0,
+      "thickness": 4,
+      "elasticity": 0.58,
+      "friction": 0.46
+    },
+    {
+      "x1": 55.5,
+      "y1": 580.0,
+      "x2": 220.0,
+      "y2": 610.0,
+      "thickness": 4,
+      "elasticity": 0.55,
+      "friction": 0.39
+    }
+  ],
+  "pegs": [
+    {
+      "x": 74.8,
+      "y": 121.8,
+      "radius": 5,
+      "elasticity": 0.61,
+      "friction": 0.31
+    },
+    {
+      "x": 166.4,
+      "y": 122.9,
+      "radius": 6,
+      "elasticity": 0.74,
+      "friction": 0.34
+    },
+    {
+      "x": 211.9,
+      "y": 119.9,
+      "radius": 5,
+      "elasticity": 0.69,
+      "friction": 0.41
+    },
+    {
+      "x": 255.5,
+      "y": 118.2,
+      "radius": 4,
+      "elasticity": 0.76,
+      "friction": 0.4
+    },
+    {
+      "x": 298.0,
+      "y": 122.1,
+      "radius": 5,
+      "elasticity": 0.44,
+      "friction": 0.23
+    },
+    {
+      "x": 349.0,
+      "y": 117.7,
+      "radius": 5,
+      "elasticity": 0.7,
+      "friction": 0.48
+    },
+    {
+      "x": 390.7,
+      "y": 119.7,
+      "radius": 5,
+      "elasticity": 0.66,
+      "friction": 0.47
+    },
+    {
+      "x": 434.6,
+      "y": 117.1,
+      "radius": 5,
+      "elasticity": 0.76,
+      "friction": 0.44
+    },
+    {
+      "x": 476.4,
+      "y": 120.4,
+      "radius": 6,
+      "elasticity": 0.47,
+      "friction": 0.24
+    },
+    {
+      "x": 522.6,
+      "y": 122.8,
+      "radius": 4,
+      "elasticity": 0.53,
+      "friction": 0.4
+    },
+    {
+      "x": 567.2,
+      "y": 121.2,
+      "radius": 5,
+      "elasticity": 0.59,
+      "friction": 0.22
+    },
+    {
+      "x": 79.4,
+      "y": 193.7,
+      "radius": 6,
+      "elasticity": 0.46,
+      "friction": 0.46
+    },
+    {
+      "x": 127.1,
+      "y": 188.1,
+      "radius": 4,
+      "elasticity": 0.65,
+      "friction": 0.27
+    },
+    {
+      "x": 169.8,
+      "y": 193.6,
+      "radius": 5,
+      "elasticity": 0.61,
+      "friction": 0.5
+    },
+    {
+      "x": 259.2,
+      "y": 192.5,
+      "radius": 4,
+      "elasticity": 0.61,
+      "friction": 0.37
+    },
+    {
+      "x": 301.9,
+      "y": 189.7,
+      "radius": 5,
+      "elasticity": 0.67,
+      "friction": 0.41
+    },
+    {
+      "x": 350.2,
+      "y": 192.6,
+      "radius": 4,
+      "elasticity": 0.56,
+      "friction": 0.26
+    },
+    {
+      "x": 387.2,
+      "y": 188.8,
+      "radius": 5,
+      "elasticity": 0.44,
+      "friction": 0.28
+    },
+    {
+      "x": 431.4,
+      "y": 192.2,
+      "radius": 6,
+      "elasticity": 0.73,
+      "friction": 0.47
+    },
+    {
+      "x": 256.2,
+      "y": 261.1,
+      "radius": 5,
+      "elasticity": 0.63,
+      "friction": 0.31
+    },
+    {
+      "x": 305.7,
+      "y": 260.4,
+      "radius": 5,
+      "elasticity": 0.77,
+      "friction": 0.43
+    },
+    {
+      "x": 344.5,
+      "y": 264.1,
+      "radius": 6,
+      "elasticity": 0.6,
+      "friction": 0.22
+    },
+    {
+      "x": 387.6,
+      "y": 261.3,
+      "radius": 5,
+      "elasticity": 0.7,
+      "friction": 0.41
+    },
+    {
+      "x": 434.6,
+      "y": 260.2,
+      "radius": 4,
+      "elasticity": 0.78,
+      "friction": 0.29
+    },
+    {
+      "x": 478.7,
+      "y": 261.2,
+      "radius": 6,
+      "elasticity": 0.72,
+      "friction": 0.27
+    },
+    {
+      "x": 527.4,
+      "y": 259.1,
+      "radius": 5,
+      "elasticity": 0.73,
+      "friction": 0.24
+    },
+    {
+      "x": 79.3,
+      "y": 334.8,
+      "radius": 6,
+      "elasticity": 0.49,
+      "friction": 0.42
+    },
+    {
+      "x": 124.4,
+      "y": 334.3,
+      "radius": 5,
+      "elasticity": 0.71,
+      "friction": 0.42
+    },
+    {
+      "x": 170.6,
+      "y": 332.7,
+      "radius": 5,
+      "elasticity": 0.67,
+      "friction": 0.28
+    },
+    {
+      "x": 210.9,
+      "y": 333.1,
+      "radius": 5,
+      "elasticity": 0.66,
+      "friction": 0.34
+    },
+    {
+      "x": 297.5,
+      "y": 331.7,
+      "radius": 4,
+      "elasticity": 0.61,
+      "friction": 0.45
+    },
+    {
+      "x": 342.9,
+      "y": 332.6,
+      "radius": 5,
+      "elasticity": 0.56,
+      "friction": 0.26
+    },
+    {
+      "x": 392.3,
+      "y": 334.1,
+      "radius": 4,
+      "elasticity": 0.66,
+      "friction": 0.25
+    },
+    {
+      "x": 439.5,
+      "y": 330.4,
+      "radius": 4,
+      "elasticity": 0.46,
+      "friction": 0.33
+    },
+    {
+      "x": 480.9,
+      "y": 335.2,
+      "radius": 5,
+      "elasticity": 0.71,
+      "friction": 0.38
+    },
+    {
+      "x": 172.3,
+      "y": 404.4,
+      "radius": 5,
+      "elasticity": 0.42,
+      "friction": 0.45
+    },
+    {
+      "x": 215.3,
+      "y": 401.7,
+      "radius": 5,
+      "elasticity": 0.56,
+      "friction": 0.5
+    },
+    {
+      "x": 392.7,
+      "y": 402.4,
+      "radius": 5,
+      "elasticity": 0.57,
+      "friction": 0.24
+    },
+    {
+      "x": 431.1,
+      "y": 404.9,
+      "radius": 5,
+      "elasticity": 0.75,
+      "friction": 0.27
+    },
+    {
+      "x": 520.1,
+      "y": 404.5,
+      "radius": 4,
+      "elasticity": 0.4,
+      "friction": 0.46
+    },
+    {
+      "x": 571.7,
+      "y": 405.4,
+      "radius": 5,
+      "elasticity": 0.79,
+      "friction": 0.44
+    },
+    {
+      "x": 123.4,
+      "y": 472.1,
+      "radius": 6,
+      "elasticity": 0.5,
+      "friction": 0.21
+    },
+    {
+      "x": 165.6,
+      "y": 474.2,
+      "radius": 5,
+      "elasticity": 0.45,
+      "friction": 0.33
+    },
+    {
+      "x": 480.7,
+      "y": 477.2,
+      "radius": 5,
+      "elasticity": 0.69,
+      "friction": 0.23
+    },
+    {
+      "x": 529.4,
+      "y": 473.9,
+      "radius": 4,
+      "elasticity": 0.44,
+      "friction": 0.45
+    },
+    {
+      "x": 570.7,
+      "y": 474.1,
+      "radius": 5,
+      "elasticity": 0.65,
+      "friction": 0.36
+    },
+    {
+      "x": 77.2,
+      "y": 543.0,
+      "radius": 5,
+      "elasticity": 0.54,
+      "friction": 0.29
+    },
+    {
+      "x": 125.3,
+      "y": 548.0,
+      "radius": 4,
+      "elasticity": 0.43,
+      "friction": 0.36
+    },
+    {
+      "x": 215.5,
+      "y": 547.7,
+      "radius": 5,
+      "elasticity": 0.41,
+      "friction": 0.31
+    },
+    {
+      "x": 256.2,
+      "y": 547.4,
+      "radius": 4,
+      "elasticity": 0.5,
+      "friction": 0.35
+    },
+    {
+      "x": 302.9,
+      "y": 545.2,
+      "radius": 5,
+      "elasticity": 0.51,
+      "friction": 0.24
+    },
+    {
+      "x": 341.5,
+      "y": 542.9,
+      "radius": 6,
+      "elasticity": 0.67,
+      "friction": 0.29
+    },
+    {
+      "x": 390.4,
+      "y": 543.8,
+      "radius": 5,
+      "elasticity": 0.58,
+      "friction": 0.48
+    },
+    {
+      "x": 435.4,
+      "y": 544.4,
+      "radius": 5,
+      "elasticity": 0.46,
+      "friction": 0.47
+    },
+    {
+      "x": 477.0,
+      "y": 543.8,
+      "radius": 5,
+      "elasticity": 0.49,
+      "friction": 0.36
+    },
+    {
+      "x": 528.2,
+      "y": 545.8,
+      "radius": 5,
+      "elasticity": 0.65,
+      "friction": 0.31
+    },
+    {
+      "x": 571.0,
+      "y": 543.9,
+      "radius": 5,
+      "elasticity": 0.41,
+      "friction": 0.36
+    },
+    {
+      "x": 76.3,
+      "y": 618.9,
+      "radius": 4,
+      "elasticity": 0.76,
+      "friction": 0.38
+    },
+    {
+      "x": 120.5,
+      "y": 618.3,
+      "radius": 5,
+      "elasticity": 0.63,
+      "friction": 0.32
+    },
+    {
+      "x": 257.8,
+      "y": 615.4,
+      "radius": 4,
+      "elasticity": 0.44,
+      "friction": 0.39
+    },
+    {
+      "x": 298.5,
+      "y": 618.1,
+      "radius": 5,
+      "elasticity": 0.54,
+      "friction": 0.42
+    },
+    {
+      "x": 342.8,
+      "y": 618.8,
+      "radius": 5,
+      "elasticity": 0.57,
+      "friction": 0.46
+    },
+    {
+      "x": 390.1,
+      "y": 616.6,
+      "radius": 5,
+      "elasticity": 0.5,
+      "friction": 0.28
+    },
+    {
+      "x": 479.0,
+      "y": 613.6,
+      "radius": 6,
+      "elasticity": 0.65,
+      "friction": 0.39
+    },
+    {
+      "x": 527.5,
+      "y": 616.2,
+      "radius": 5,
+      "elasticity": 0.44,
+      "friction": 0.23
+    },
+    {
+      "x": 571.9,
+      "y": 614.8,
+      "radius": 5,
+      "elasticity": 0.56,
+      "friction": 0.37
+    },
+    {
+      "x": 123.3,
+      "y": 689.4,
+      "radius": 5,
+      "elasticity": 0.49,
+      "friction": 0.36
+    },
+    {
+      "x": 164.6,
+      "y": 685.0,
+      "radius": 5,
+      "elasticity": 0.56,
+      "friction": 0.41
+    },
+    {
+      "x": 207.8,
+      "y": 687.0,
+      "radius": 4,
+      "elasticity": 0.73,
+      "friction": 0.41
+    },
+    {
+      "x": 252.6,
+      "y": 690.0,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.35
+    },
+    {
+      "x": 304.7,
+      "y": 689.5,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.39
+    },
+    {
+      "x": 344.6,
+      "y": 689.7,
+      "radius": 6,
+      "elasticity": 0.7,
+      "friction": 0.31
+    },
+    {
+      "x": 392.2,
+      "y": 687.5,
+      "radius": 6,
+      "elasticity": 0.53,
+      "friction": 0.29
+    },
+    {
+      "x": 439.2,
+      "y": 688.1,
+      "radius": 6,
+      "elasticity": 0.59,
+      "friction": 0.24
+    },
+    {
+      "x": 478.2,
+      "y": 684.5,
+      "radius": 5,
+      "elasticity": 0.48,
+      "friction": 0.3
+    },
+    {
+      "x": 568.2,
+      "y": 690.2,
+      "radius": 4,
+      "elasticity": 0.64,
+      "friction": 0.45
+    },
+    {
+      "x": 77.1,
+      "y": 759.2,
+      "radius": 5,
+      "elasticity": 0.44,
+      "friction": 0.25
+    },
+    {
+      "x": 125.5,
+      "y": 758.0,
+      "radius": 4,
+      "elasticity": 0.53,
+      "friction": 0.48
+    },
+    {
+      "x": 169.2,
+      "y": 756.7,
+      "radius": 6,
+      "elasticity": 0.43,
+      "friction": 0.24
+    },
+    {
+      "x": 215.5,
+      "y": 758.6,
+      "radius": 5,
+      "elasticity": 0.68,
+      "friction": 0.35
+    },
+    {
+      "x": 254.9,
+      "y": 759.3,
+      "radius": 6,
+      "elasticity": 0.67,
+      "friction": 0.47
+    },
+    {
+      "x": 300.6,
+      "y": 756.9,
+      "radius": 5,
+      "elasticity": 0.8,
+      "friction": 0.29
+    },
+    {
+      "x": 349.2,
+      "y": 759.9,
+      "radius": 4,
+      "elasticity": 0.8,
+      "friction": 0.26
+    },
+    {
+      "x": 393.4,
+      "y": 759.1,
+      "radius": 5,
+      "elasticity": 0.6,
+      "friction": 0.38
+    },
+    {
+      "x": 435.0,
+      "y": 757.9,
+      "radius": 5,
+      "elasticity": 0.45,
+      "friction": 0.27
+    },
+    {
+      "x": 523.1,
+      "y": 757.1,
+      "radius": 6,
+      "elasticity": 0.5,
+      "friction": 0.41
+    },
+    {
+      "x": 123.7,
+      "y": 827.0,
+      "radius": 4,
+      "elasticity": 0.61,
+      "friction": 0.36
+    },
+    {
+      "x": 171.0,
+      "y": 827.0,
+      "radius": 4,
+      "elasticity": 0.62,
+      "friction": 0.46
+    },
+    {
+      "x": 213.6,
+      "y": 830.8,
+      "radius": 6,
+      "elasticity": 0.54,
+      "friction": 0.46
+    },
+    {
+      "x": 297.9,
+      "y": 829.9,
+      "radius": 4,
+      "elasticity": 0.46,
+      "friction": 0.24
+    },
+    {
+      "x": 344.6,
+      "y": 831.3,
+      "radius": 5,
+      "elasticity": 0.71,
+      "friction": 0.25
+    },
+    {
+      "x": 430.6,
+      "y": 826.3,
+      "radius": 5,
+      "elasticity": 0.73,
+      "friction": 0.24
+    },
+    {
+      "x": 521.6,
+      "y": 831.8,
+      "radius": 6,
+      "elasticity": 0.63,
+      "friction": 0.41
+    },
+    {
+      "x": 571.8,
+      "y": 826.1,
+      "radius": 5,
+      "elasticity": 0.59,
+      "friction": 0.42
+    }
+  ],
+  "buckets": {
+    "height": 45,
+    "entries": [
+      {
+        "width_fraction": 0.13454545454545455,
+        "score": 0,
+        "label": "+1"
+      },
+      {
+        "width_fraction": 0.08363636363636362,
+        "score": 10,
+        "label": "10"
+      },
+      {
+        "width_fraction": 0.09486408752965367,
+        "score": 3,
+        "label": "3"
+      },
+      {
+        "width_fraction": 0.1186984981616637,
+        "score": 2,
+        "label": "2"
+      },
+      {
+        "width_fraction": 0.10967446360910485,
+        "score": 1,
+        "label": "1"
+      },
+      {
+        "width_fraction": 0.1193835833926473,
+        "score": 2,
+        "label": "2"
+      },
+      {
+        "width_fraction": 0.0955611854887487,
+        "score": 3,
+        "label": "3"
+      },
+      {
+        "width_fraction": 0.09090909090909094,
+        "score": 10,
+        "label": "10"
+      },
+      {
+        "width_fraction": 0.1527272727272725,
+        "score": 0,
+        "label": "+1"
+      }
+    ]
+  },
+  "spawn": {
+    "y_offset": 15,
+    "x_spread": 120
+  },
+  "gravity": [
+    0,
+    900
+  ],
+  "ball_radius": 8,
+  "ball_limit": 80
+}
