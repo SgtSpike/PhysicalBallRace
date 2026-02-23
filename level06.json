@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "name": "Narrow Paths",
+  "name": "06 Narrow Paths",
   "maze": {
-    "width": 800,
+    "width": 860,
     "height": 1000,
     "maze_top": 80,
     "maze_bottom": 940,
@@ -51,7 +51,7 @@
     {
       "x1": 474,
       "y1": 319,
-      "x2": 570,
+      "x2": 600,
       "y2": 321,
       "thickness": 4,
       "elasticity": 0.37,
@@ -860,5 +860,5 @@
     900
   ],
   "ball_radius": 8,
-  "ball_limit": 80
+  "ball_limit": 100
 }

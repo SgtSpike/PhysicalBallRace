@@ -20,6 +20,12 @@ import math
 import copy
 import subprocess
 
+try:
+    from PIL import Image, ImageFilter
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
+
 # --- Constants ---
 EDITOR_WIDTH, EDITOR_HEIGHT = 800, 1040
 TOOLBAR_HEIGHT = 40
@@ -636,6 +642,8 @@ class Editor:
         elif x < 340:
             self.snap = not self.snap
             self.status_text = f"Grid snap: {'ON' if self.snap else 'OFF'}"
+        elif x < 415:
+            self.open_image_browser()
 
     def handle_panel_click(self, pos):
         y = pos[1]
@@ -980,6 +988,8 @@ class Editor:
             self.draw_file_browser()
         if hasattr(self, 'show_save_dialog') and self.show_save_dialog:
             self.draw_save_dialog()
+        if self.show_image_browser:
+            self.draw_image_browser()
 
     def draw_buckets(self):
         m = self.maze()
@@ -1038,7 +1048,7 @@ class Editor:
         pygame.draw.rect(self.screen, C_TOOLBAR_BG, (0, 0, EDITOR_WIDTH, TOOLBAR_HEIGHT))
         pygame.draw.line(self.screen, C_PANEL_BORDER, (0, TOOLBAR_HEIGHT), (EDITOR_WIDTH, TOOLBAR_HEIGHT))
 
-        buttons = [("Save", 0), ("Load", 65), ("New", 130), ("Preview", 190), ("Grid", 265)]
+        buttons = [("Save", 0), ("Load", 65), ("New", 130), ("Preview", 190), ("Grid", 265), ("Image", 345)]
         mx, my = pygame.mouse.get_pos()
         for label, bx in buttons:
             bw = 55 if label != "Preview" else 65
@@ -1055,7 +1065,7 @@ class Editor:
         # File indicator
         fname = os.path.basename(self.current_file) if self.current_file else "(unsaved)"
         ftxt = self.font.render(fname, True, C_TEXT_DIM)
-        self.screen.blit(ftxt, (340, 12))
+        self.screen.blit(ftxt, (415, 12))
 
     def draw_panel(self):
         # Panel background
@@ -1278,11 +1288,302 @@ class Editor:
         hint = self.font.render("Enter to save, Escape to cancel", True, C_TEXT_DIM)
         self.screen.blit(hint, (bx + 20, by + bh - 18))
 
+    # --- Image import ---
+
+    def open_image_browser(self):
+        if not HAS_PIL:
+            self.status_text = "Pillow not installed - run: pip install Pillow"
+            return
+        extensions = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
+        self.image_browser_files = sorted(
+            f for f in os.listdir(self.dir)
+            if f.lower().endswith(extensions)
+        )
+        if not self.image_browser_files:
+            self.status_text = "No image files found in level directory"
+            return
+        self.show_image_browser = True
+        self.image_browser_scroll = 0
+        self.status_text = "Select an image to convert to level geometry"
+
+    def draw_image_browser(self):
+        """Draw an image file browser overlay with scrollbar."""
+        overlay = pygame.Surface((EDITOR_WIDTH, EDITOR_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 140))
+        self.screen.blit(overlay, (0, 0))
+
+        bw, bh = 350, 500
+        bx = (EDITOR_WIDTH - bw) // 2
+        by = (EDITOR_HEIGHT - bh) // 2
+        pygame.draw.rect(self.screen, C_PANEL_BG, (bx, by, bw, bh), border_radius=8)
+        pygame.draw.rect(self.screen, C_PANEL_BORDER, (bx, by, bw, bh), 2, border_radius=8)
+
+        title = self.title_font.render("Import Image", True, C_TEXT)
+        self.screen.blit(title, (bx + 20, by + 15))
+
+        files = self.image_browser_files
+        scroll = self.image_browser_scroll
+        mx, my = pygame.mouse.get_pos()
+
+        list_top = by + 45
+        list_bottom = by + bh - 35
+        list_height = list_bottom - list_top
+        row_h = 30
+        visible_count = list_height // row_h
+        max_scroll = max(0, len(files) - visible_count)
+        scroll = max(0, min(scroll, max_scroll))
+        self.image_browser_scroll = scroll
+
+        clip_rect = pygame.Rect(bx, list_top, bw, list_height)
+        self.screen.set_clip(clip_rect)
+
+        fy = list_top
+        for i in range(scroll, min(scroll + visible_count, len(files))):
+            fname = files[i]
+            rect = pygame.Rect(bx + 10, fy, bw - 35, 26)
+            hover = rect.collidepoint(mx, my)
+            if hover:
+                pygame.draw.rect(self.screen, C_BTN_HOVER, rect, border_radius=3)
+                if pygame.mouse.get_pressed()[0]:
+                    filepath = os.path.join(self.dir, fname)
+                    self.show_image_browser = False
+                    self.screen.set_clip(None)
+                    self.import_image(filepath)
+                    return
+            txt = self.font.render(fname, True, C_TEXT)
+            self.screen.blit(txt, (rect.x + 8, rect.y + 5))
+            fy += row_h
+
+        self.screen.set_clip(None)
+
+        # Scrollbar
+        if len(files) > visible_count:
+            sb_x = bx + bw - 18
+            sb_w = 8
+            track_rect = pygame.Rect(sb_x, list_top, sb_w, list_height)
+            pygame.draw.rect(self.screen, (40, 40, 55), track_rect, border_radius=4)
+
+            thumb_frac = visible_count / len(files)
+            thumb_h = max(20, int(list_height * thumb_frac))
+            thumb_pos = list_top + int((list_height - thumb_h) * scroll / max_scroll) if max_scroll > 0 else list_top
+            thumb_rect = pygame.Rect(sb_x, thumb_pos, sb_w, thumb_h)
+            thumb_hover = thumb_rect.collidepoint(mx, my)
+            thumb_color = (120, 120, 150) if thumb_hover else (80, 80, 110)
+            pygame.draw.rect(self.screen, thumb_color, thumb_rect, border_radius=4)
+
+            count_txt = self.font.render(f"{len(files)} files", True, C_TEXT_DIM)
+            self.screen.blit(count_txt, (bx + 20, by + bh - 28))
+
+        hint = self.font.render("Escape to cancel, scroll to browse", True, C_TEXT_DIM)
+        self.screen.blit(hint, (bx + 20, by + bh - 14))
+
+    def import_image(self, filepath):
+        """Load an image and convert edges to platforms, dark areas to pegs."""
+        self.push_undo()
+        self.status_text = "Processing image..."
+        self.draw()
+        pygame.display.flip()
+
+        img = Image.open(filepath).convert('L')
+
+        m = self.maze()
+        ml, mt = m["maze_left"], m["maze_top"]
+        mr, mb = m["maze_right"], m["maze_bottom"]
+        maze_w = mr - ml
+        maze_h = mb - mt
+        bucket_h = self.level["buckets"]["height"]
+        usable_h = maze_h - bucket_h
+
+        # Resize image to fit maze area
+        img = img.resize((maze_w, usable_h), Image.LANCZOS)
+        w, h = img.size
+
+        # Edge detection using PIL's fast C filter
+        edge_img = img.filter(ImageFilter.FIND_EDGES)
+        edge_pixels = list(edge_img.getdata())
+        edges = [[False] * w for _ in range(h)]
+        for y in range(h):
+            for x in range(w):
+                if edge_pixels[y * w + x] > 40:
+                    edges[y][x] = True
+
+        # Trace contours from connected edge pixels
+        contours = self._trace_contours(edges, w, h, min_length=10)
+
+        # Simplify contours to line segments
+        segments = []
+        for contour in contours:
+            simplified = self._douglas_peucker(contour, epsilon=3.0)
+            if len(simplified) >= 2:
+                segments.append(simplified)
+
+        # Build platform list from segments
+        new_platforms = []
+        for seg_points in segments:
+            for i in range(len(seg_points) - 1):
+                x1 = seg_points[i][0] + ml
+                y1 = seg_points[i][1] + mt
+                x2 = seg_points[i + 1][0] + ml
+                y2 = seg_points[i + 1][1] + mt
+                length = math.hypot(x2 - x1, y2 - y1)
+                if length < 5:
+                    continue
+                new_platforms.append({
+                    "x1": round(x1, 1), "y1": round(y1, 1),
+                    "x2": round(x2, 1), "y2": round(y2, 1),
+                    "thickness": 4, "elasticity": 0.4, "friction": 0.5
+                })
+
+        # Dark region detection for peg placement
+        pixels = list(img.getdata())
+        dark_mask = [[False] * w for _ in range(h)]
+        for y in range(h):
+            for x in range(w):
+                if pixels[y * w + x] < 80:
+                    dark_mask[y][x] = True
+
+        # Place pegs in dark interior areas
+        peg_spacing = 20
+        raw_pegs = []
+        row = 0
+        for y in range(peg_spacing // 2, h - peg_spacing // 2, peg_spacing):
+            offset = peg_spacing // 2 if row % 2 == 1 else 0
+            for x in range(peg_spacing // 2 + offset, w - peg_spacing // 2, peg_spacing):
+                if not dark_mask[y][x] or edges[y][x]:
+                    continue
+                # Check neighborhood is mostly dark
+                dark_count = 0
+                total = 0
+                for dy in range(-3, 4):
+                    for dx in range(-3, 4):
+                        ny, nx = y + dy, x + dx
+                        if 0 <= ny < h and 0 <= nx < w:
+                            total += 1
+                            if dark_mask[ny][nx]:
+                                dark_count += 1
+                if total > 0 and dark_count / total > 0.7:
+                    raw_pegs.append((x, y))
+            row += 1
+
+        # Convert pegs to maze coordinates, filter near platforms/boundaries
+        new_pegs = []
+        for px, py in raw_pegs:
+            mx = px + ml
+            my = py + mt
+            if mx <= ml + 10 or mx >= mr - 10:
+                continue
+            if my >= mb - bucket_h - 10:
+                continue
+            too_close = False
+            for p in new_platforms:
+                if point_to_segment_dist(mx, my, p["x1"], p["y1"], p["x2"], p["y2"]) < 12:
+                    too_close = True
+                    break
+            if not too_close:
+                new_pegs.append({
+                    "x": round(mx, 1), "y": round(my, 1),
+                    "radius": 5, "elasticity": 0.6, "friction": 0.3
+                })
+
+        self.level["platforms"] = new_platforms
+        self.level["pegs"] = new_pegs
+        self.selected = None
+        self.inputs = []
+        self.status_text = f"Imported {os.path.basename(filepath)}: {len(new_platforms)} platforms, {len(new_pegs)} pegs"
+
+    def _trace_contours(self, edges, w, h, min_length=10):
+        """Trace connected edge pixels into ordered point chains."""
+        visited = [[False] * w for _ in range(h)]
+        contours = []
+        neighbors = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+        for sy in range(h):
+            for sx in range(w):
+                if edges[sy][sx] and not visited[sy][sx]:
+                    chain = []
+                    stack = [(sx, sy)]
+                    while stack:
+                        cx, cy = stack.pop()
+                        if visited[cy][cx]:
+                            continue
+                        visited[cy][cx] = True
+                        chain.append((cx, cy))
+                        for dx, dy in neighbors:
+                            nx, ny = cx + dx, cy + dy
+                            if 0 <= nx < w and 0 <= ny < h and edges[ny][nx] and not visited[ny][nx]:
+                                stack.append((nx, ny))
+
+                    if len(chain) >= min_length:
+                        # Sub-sample long chains for performance
+                        if len(chain) > 500:
+                            step = len(chain) // 300
+                            chain = chain[::max(1, step)]
+                        chain = self._order_chain(chain)
+                        contours.append(chain)
+
+        return contours
+
+    def _order_chain(self, points):
+        """Order points into a path via nearest-neighbor greedy walk."""
+        if len(points) <= 2:
+            return points
+
+        remaining = set(range(len(points)))
+        ordered = [0]
+        remaining.remove(0)
+
+        while remaining:
+            last = ordered[-1]
+            lx, ly = points[last]
+            best_idx = None
+            best_dist = float('inf')
+            for idx in remaining:
+                px, py = points[idx]
+                d = abs(px - lx) + abs(py - ly)
+                if d < best_dist:
+                    best_dist = d
+                    best_idx = idx
+            if best_dist > 5:
+                break
+            ordered.append(best_idx)
+            remaining.remove(best_idx)
+
+        return [points[i] for i in ordered]
+
+    def _douglas_peucker(self, points, epsilon=3.0):
+        """Simplify a polyline using Douglas-Peucker algorithm."""
+        if len(points) <= 2:
+            return points
+
+        start = points[0]
+        end = points[-1]
+        max_dist = 0
+        max_idx = 0
+
+        for i in range(1, len(points) - 1):
+            d = point_to_segment_dist(
+                points[i][0], points[i][1],
+                start[0], start[1], end[0], end[1]
+            )
+            if d > max_dist:
+                max_dist = d
+                max_idx = i
+
+        if max_dist > epsilon:
+            left = self._douglas_peucker(points[:max_idx + 1], epsilon)
+            right = self._douglas_peucker(points[max_idx:], epsilon)
+            return left[:-1] + right
+        else:
+            return [start, end]
+
     # --- Main loop ---
 
     def run(self):
         self.show_file_browser = False
         self.show_save_dialog = False
+        self.show_image_browser = False
+        self.image_browser_files = []
+        self.image_browser_scroll = 0
         running = True
         while running:
             for event in pygame.event.get():
@@ -1329,6 +1630,24 @@ class Editor:
                         elif cancel_btn.collidepoint(event.pos):
                             self.show_save_dialog = False
                             self.status_text = "Save cancelled"
+                elif self.show_image_browser:
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            self.show_image_browser = False
+                        elif event.key == pygame.K_UP:
+                            self.image_browser_scroll = max(0, self.image_browser_scroll - 1)
+                        elif event.key == pygame.K_DOWN:
+                            self.image_browser_scroll += 1
+                        elif event.key == pygame.K_PAGEUP:
+                            self.image_browser_scroll = max(0, self.image_browser_scroll - 10)
+                        elif event.key == pygame.K_PAGEDOWN:
+                            self.image_browser_scroll += 10
+                        elif event.key == pygame.K_HOME:
+                            self.image_browser_scroll = 0
+                        elif event.key == pygame.K_END:
+                            self.image_browser_scroll = max(0, len(self.image_browser_files) - 1)
+                    elif event.type == pygame.MOUSEWHEEL:
+                        self.image_browser_scroll = max(0, self.image_browser_scroll - event.y * 3)
                 elif hasattr(self, 'show_file_browser') and self.show_file_browser:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:

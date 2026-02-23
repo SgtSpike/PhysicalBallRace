@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "name": "New York",
+  "name": "13 New York",
   "maze": {
-    "width": 800,
+    "width": 860,
     "height": 1000,
     "maze_top": 80,
     "maze_bottom": 940,
@@ -211,10 +211,10 @@
       "friction": 0.5
     },
     {
-      "x1": 60,
-      "y1": 240,
-      "x2": 240,
-      "y2": 240,
+      "x1": 60.0,
+      "y1": 240.0,
+      "x2": 240.0,
+      "y2": 240.0,
       "thickness": 4,
       "elasticity": 0.4,
       "friction": 0.5
@@ -384,23 +384,23 @@
     {
       "x1": 590,
       "y1": 530,
-      "x2": 570,
+      "x2": 600,
       "y2": 530,
       "thickness": 4,
       "elasticity": 0.4,
       "friction": 0.5
     },
     {
-      "x1": 570,
+      "x1": 600,
       "y1": 530,
-      "x2": 570,
+      "x2": 600,
       "y2": 510,
       "thickness": 4,
       "elasticity": 0.4,
       "friction": 0.5
     },
     {
-      "x1": 570,
+      "x1": 600,
       "y1": 510,
       "x2": 540,
       "y2": 510,
@@ -726,14 +726,14 @@
     {
       "x1": 590,
       "y1": 490,
-      "x2": 570,
+      "x2": 600,
       "y2": 470,
       "thickness": 4,
       "elasticity": 0.4,
       "friction": 0.5
     },
     {
-      "x1": 570,
+      "x1": 600,
       "y1": 470,
       "x2": 540,
       "y2": 470,
@@ -1370,6 +1370,15 @@
       "thickness": 4,
       "elasticity": 0.4,
       "friction": 0.5
+    },
+    {
+      "x1": 50,
+      "y1": 180,
+      "x2": 230,
+      "y2": 210,
+      "thickness": 4,
+      "elasticity": 0.4,
+      "friction": 0.5
     }
   ],
   "pegs": [
@@ -1453,5 +1462,5 @@
     900
   ],
   "ball_radius": 8,
-  "ball_limit": 80
+  "ball_limit": 100
 }

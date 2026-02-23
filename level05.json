@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "name": "Pinball Paradise",
+  "name": "05 Pinball Paradise",
   "maze": {
-    "width": 800,
+    "width": 860,
     "height": 1000,
     "maze_top": 80,
     "maze_bottom": 940,
@@ -835,5 +835,5 @@
     900
   ],
   "ball_radius": 8,
-  "ball_limit": 80
+  "ball_limit": 100
 }

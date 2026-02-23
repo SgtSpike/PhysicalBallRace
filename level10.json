@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "name": "Dense Forest",
+  "name": "10 Dense Forest",
   "maze": {
-    "width": 800,
+    "width": 860,
     "height": 1000,
     "maze_top": 80,
     "maze_bottom": 940,
@@ -96,7 +96,7 @@
     {
       "x1": 600.0,
       "y1": 830.0,
-      "x2": 570.0,
+      "x2": 600.0,
       "y2": 840.0,
       "thickness": 4,
       "elasticity": 0.4,
@@ -636,5 +636,5 @@
     900
   ],
   "ball_radius": 8,
-  "ball_limit": 80
+  "ball_limit": 100
 }

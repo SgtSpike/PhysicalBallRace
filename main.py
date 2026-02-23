@@ -7,20 +7,10 @@ import json
 import sys
 
 # --- Constants ---
-WIDTH, HEIGHT = 800, 1000
-MAZE_TOP = 80
-MAZE_BOTTOM = HEIGHT - 60
-MAZE_LEFT = 50
-MAZE_RIGHT = WIDTH - 200
-SCOREBOARD_X = MAZE_RIGHT + 20
 FPS = 60
 BALL_RADIUS = 8
 GRAVITY = (0, 900)
 BALL_LIMIT = 80
-BUCKET_SCORES = [0, 10, 5, 3, 1, 3, 5, 10, 0]  # 0 = spawn bucket (+1 ball)
-BUCKET_LABELS = ["+1", "10", "5", "3", "1", "3", "5", "10", "+1"]
-BUCKET_COUNT = len(BUCKET_SCORES)
-BUCKET_HEIGHT = 45
 STUCK_THRESHOLD = 180  # frames (~3 sec) before nudging a stuck ball
 STUCK_SPEED = 5.0  # speed below which a ball counts as stuck
 STUCK_PEG_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "stuck_pegs.log")
@@ -53,130 +43,6 @@ BALL_CT = 1
 WALL_CT = 2
 FLOOR_CT = 3
 PEG_CT = 4
-
-
-def point_to_segment_dist(px, py, ax, ay, bx, by):
-    """Return the shortest distance from point (px,py) to segment (ax,ay)-(bx,by)."""
-    dx, dy = bx - ax, by - ay
-    if dx == 0 and dy == 0:
-        return math.hypot(px - ax, py - ay)
-    t = max(0, min(1, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)))
-    proj_x, proj_y = ax + t * dx, ay + t * dy
-    return math.hypot(px - proj_x, py - proj_y)
-
-
-# Platform definitions (used for default level generation)
-PLATFORM_DEFS = [
-    ((MAZE_LEFT + 20, MAZE_TOP + 100), (MAZE_LEFT + 120, MAZE_TOP + 115)),
-    ((MAZE_RIGHT - 120, MAZE_TOP + 100), (MAZE_RIGHT - 20, MAZE_TOP + 85)),
-    ((MAZE_LEFT + 60, MAZE_TOP + 220), (MAZE_LEFT + 180, MAZE_TOP + 205)),
-    ((MAZE_RIGHT - 180, MAZE_TOP + 220), (MAZE_RIGHT - 60, MAZE_TOP + 235)),
-    ((MAZE_LEFT, MAZE_TOP + 340), (MAZE_LEFT + 140, MAZE_TOP + 355)),
-    ((MAZE_RIGHT - 140, MAZE_TOP + 340), (MAZE_RIGHT, MAZE_TOP + 325)),
-    ((MAZE_LEFT, MAZE_TOP + 520), (MAZE_LEFT + 160, MAZE_TOP + 535)),
-    ((MAZE_RIGHT - 160, MAZE_TOP + 520), (MAZE_RIGHT, MAZE_TOP + 505)),
-]
-
-PEG_PLATFORM_CLEARANCE = 20
-
-# Pegs identified from stuck_pegs.log as causing stuck balls
-BLOCKED_PEGS = [
-    (461, 194),
-    (189, 268),
-    (243, 268),
-]
-BLOCKED_PEG_RADIUS = 8
-
-
-# --- Level loading ---
-
-def generate_default_pegs():
-    """Generate the default peg grid as explicit positions, applying all exclusion rules."""
-    pegs = []
-    peg_radius = 5
-    rows = 14
-    usable_width = MAZE_RIGHT - MAZE_LEFT - 60
-    cols = 10
-    h_spacing = usable_width / (cols - 1)
-    v_spacing = (MAZE_BOTTOM - MAZE_TOP - 80) / (rows - 1)
-
-    for row in range(rows):
-        offset = h_spacing / 2 if row % 2 == 1 else 0
-        num_cols = cols - 1 if row % 2 == 1 else cols
-        y = MAZE_TOP + 40 + row * v_spacing
-
-        for col in range(num_cols):
-            x = MAZE_LEFT + 30 + col * h_spacing + offset
-
-            bucket_top = MAZE_BOTTOM - BUCKET_HEIGHT
-            if y >= bucket_top - 15:
-                continue
-
-            too_close = False
-            for (p1, p2) in PLATFORM_DEFS:
-                if point_to_segment_dist(x, y, p1[0], p1[1], p2[0], p2[1]) < PEG_PLATFORM_CLEARANCE:
-                    too_close = True
-                    break
-            if too_close:
-                continue
-
-            blocked = False
-            for bpx, bpy in BLOCKED_PEGS:
-                if math.hypot(x - bpx, y - bpy) < BLOCKED_PEG_RADIUS:
-                    blocked = True
-                    break
-            if blocked:
-                continue
-
-            pegs.append({"x": round(x, 1), "y": round(y, 1), "radius": peg_radius,
-                         "elasticity": 0.6, "friction": 0.3})
-
-    return pegs
-
-
-def get_default_level():
-    """Build the default level data dict from hardcoded constants."""
-    bucket_count = len(BUCKET_SCORES)
-    frac = round(1.0 / bucket_count, 4)
-    entries = []
-    for i in range(bucket_count):
-        entries.append({
-            "width_fraction": frac,
-            "score": BUCKET_SCORES[i],
-            "label": BUCKET_LABELS[i],
-        })
-
-    platforms = []
-    for p1, p2 in PLATFORM_DEFS:
-        platforms.append({
-            "x1": p1[0], "y1": p1[1], "x2": p2[0], "y2": p2[1],
-            "thickness": 4, "elasticity": 0.4, "friction": 0.5,
-        })
-
-    walls = [
-        {"x1": MAZE_LEFT, "y1": MAZE_TOP, "x2": MAZE_LEFT, "y2": MAZE_BOTTOM,
-         "thickness": 6, "elasticity": 0.5, "friction": 0.4},
-        {"x1": MAZE_RIGHT, "y1": MAZE_TOP, "x2": MAZE_RIGHT, "y2": MAZE_BOTTOM,
-         "thickness": 6, "elasticity": 0.5, "friction": 0.4},
-    ]
-
-    return {
-        "version": 1,
-        "name": "Default Level",
-        "maze": {
-            "width": WIDTH, "height": HEIGHT,
-            "maze_top": MAZE_TOP, "maze_bottom": MAZE_BOTTOM,
-            "maze_left": MAZE_LEFT, "maze_right": MAZE_RIGHT,
-        },
-        "walls": walls,
-        "platforms": platforms,
-        "pegs": generate_default_pegs(),
-        "buckets": {"height": BUCKET_HEIGHT, "entries": entries},
-        "spawn": {"y_offset": 15, "x_spread": 120},
-        "gravity": list(GRAVITY),
-        "ball_radius": BALL_RADIUS,
-        "ball_limit": BALL_LIMIT,
-    }
 
 
 def load_level(filepath):
@@ -668,14 +534,14 @@ def main():
 
     game_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Load level: from command line arg, or default
+    # Load level: from command line arg, or from level sequence
     level_file = sys.argv[1] if len(sys.argv) > 1 else None
     if level_file and os.path.exists(level_file):
         level = load_level(level_file)
         level_files = []  # Single-level mode when launched with specific file
     else:
-        level = get_default_level()
         level_files = load_level_sequence(game_dir)
+        level = load_level(level_files[0])
 
     # Game state dict for mutable references shared with closures
     gs = {
@@ -688,7 +554,6 @@ def main():
         "bucket_count": len(level["buckets"]["entries"]),
         "bucket_counts": [0] * len(level["buckets"]["entries"]),
         "level_index": 0,
-        "level_name_display": 0,  # frames remaining to show level name
     }
     gw, gh = gs["maze"]["width"], gs["maze"]["height"]
 
@@ -750,7 +615,6 @@ def main():
         gs["bucket_entries"] = new_level["buckets"]["entries"]
         gs["bucket_count"] = len(new_level["buckets"]["entries"])
         gs["bucket_counts"] = [0] * gs["bucket_count"]
-        gs["level_name_display"] = FPS * 3  # Show level name for 3 seconds
 
         space.gravity = tuple(new_level.get("gravity", GRAVITY))
 
@@ -774,12 +638,9 @@ def main():
         rebuild_level(new_level)
 
     def reset_to_first_level():
-        """Reset to the first level in the sequence (or default)."""
+        """Reset to the first level in the sequence."""
         gs["level_index"] = 0
-        if level_files:
-            new_level = load_level(level_files[0])
-        else:
-            new_level = get_default_level()
+        new_level = load_level(level_files[0])
         rebuild_level(new_level)
 
     # Floor collision handler - score based on bucket and queue respawn
@@ -922,10 +783,6 @@ def main():
                 winner = None
                 reset_to_first_level()
 
-        # Tick level name display timer
-        if gs["level_name_display"] > 0:
-            gs["level_name_display"] -= 1
-
         # Remove balls that fell way off screen
         for ball in balls[:]:
             if ball.body.position.y > gh + 100 or ball.body.position.x < -100 or ball.body.position.x > gw + 100:
@@ -1012,19 +869,13 @@ def main():
                                      BALL_TYPES[selected_type]["color"])
         game_surface.blit(sel_text, (gs["maze"]["maze_left"] + 200, gs["maze"]["maze_top"] - 25))
 
-        # Level name display on level switch
-        if gs["level_name_display"] > 0:
-            alpha = min(255, gs["level_name_display"] * 4)
-            level_name = gs["level"].get("name", "")
-            if level_name:
-                name_surf = font.render(f"Level: {level_name}", True, (255, 255, 255))
-                name_x = (gs["maze"]["maze_left"] + gs["maze"]["maze_right"]) // 2 - name_surf.get_width() // 2
-                name_y = gs["maze"]["maze_top"] + 20
-                bg_rect = pygame.Rect(name_x - 10, name_y - 5, name_surf.get_width() + 20, name_surf.get_height() + 10)
-                bg = pygame.Surface((bg_rect.w, bg_rect.h), pygame.SRCALPHA)
-                bg.fill((0, 0, 0, min(160, alpha)))
-                game_surface.blit(bg, bg_rect)
-                game_surface.blit(name_surf, (name_x, name_y))
+        # Level name display
+        level_name = gs["level"].get("name", "")
+        if level_name:
+            name_surf = small_font.render(f"Level: {level_name}", True, (255, 255, 255))
+            name_x = (gs["maze"]["maze_left"] + gs["maze"]["maze_right"]) // 2 - name_surf.get_width() // 2
+            name_y = gs["maze"]["maze_top"] - 45
+            game_surface.blit(name_surf, (name_x, name_y))
 
         if game_over and winner is not None:
             countdown = max(0, AUTO_RESTART_SECONDS - game_over_timer // FPS)
