@@ -1,8 +1,12 @@
 {
   "Cyan": 4,
   "Green": 3,
-  "S.Red": 1,
+  "S.Red": 2,
   "Purple": 1,
-  "Yellow": 1,
-  "S.Cyan": 1
+  "Yellow": 2,
+  "S.Cyan": 2,
+  "S.Blue": 1,
+  "Pink": 1,
+  "S.Purple": 2,
+  "S.Yellow": 1
 }

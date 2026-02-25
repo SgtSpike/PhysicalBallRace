@@ -20,23 +20,42 @@ AUTO_RESTART_SECONDS = 10
 
 # Ball colors with names and display colors
 BALL_TYPES = [
-    {"name": "Red",        "color": (220, 50, 50),   "score": 0, "sparkly": False},
-    {"name": "Blue",       "color": (50, 100, 220),  "score": 0, "sparkly": False},
-    {"name": "Green",      "color": (50, 180, 50),   "score": 0, "sparkly": False},
-    {"name": "Yellow",     "color": (220, 200, 40),  "score": 0, "sparkly": False},
-    {"name": "Purple",     "color": (160, 50, 200),  "score": 0, "sparkly": False},
-    {"name": "Orange",     "color": (230, 130, 30),  "score": 0, "sparkly": False},
-    {"name": "Cyan",       "color": (40, 200, 200),  "score": 0, "sparkly": False},
-    {"name": "Pink",       "color": (230, 100, 160), "score": 0, "sparkly": False},
-    {"name": "S.Red",      "color": (220, 50, 50),   "score": 0, "sparkly": True},
-    {"name": "S.Blue",     "color": (50, 100, 220),  "score": 0, "sparkly": True},
-    {"name": "S.Green",    "color": (50, 180, 50),   "score": 0, "sparkly": True},
-    {"name": "S.Yellow",   "color": (220, 200, 40),  "score": 0, "sparkly": True},
-    {"name": "S.Purple",   "color": (160, 50, 200),  "score": 0, "sparkly": True},
-    {"name": "S.Orange",   "color": (230, 130, 30),  "score": 0, "sparkly": True},
-    {"name": "S.Cyan",     "color": (40, 200, 200),  "score": 0, "sparkly": True},
-    {"name": "S.Pink",     "color": (230, 100, 160), "score": 0, "sparkly": True},
+    {"name": "Red",        "color": (220, 50, 50),   "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Blue",       "color": (50, 100, 220),  "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Green",      "color": (50, 180, 50),   "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Yellow",     "color": (220, 200, 40),  "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Purple",     "color": (160, 50, 200),  "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Orange",     "color": (230, 130, 30),  "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Cyan",       "color": (40, 200, 200),  "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "Pink",       "color": (230, 100, 160), "score": 0, "sparkly": False, "rainbow": False, "bw": False},
+    {"name": "S.Red",      "color": (220, 50, 50),   "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Blue",     "color": (50, 100, 220),  "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Green",    "color": (50, 180, 50),   "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Yellow",   "color": (220, 200, 40),  "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Purple",   "color": (160, 50, 200),  "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Orange",   "color": (230, 130, 30),  "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Cyan",     "color": (40, 200, 200),  "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "S.Pink",     "color": (230, 100, 160), "score": 0, "sparkly": True,  "rainbow": False, "bw": False},
+    {"name": "Rainbow",    "color": (255, 0, 0),     "score": 0, "sparkly": True,  "rainbow": True,  "bw": False},
+    {"name": "B&W",        "color": (200, 200, 200), "score": 0, "sparkly": False, "rainbow": False, "bw": True},
 ]
+
+
+def get_ball_color(bt, offset=0):
+    """Return the effective display color for a ball type, handling animated types."""
+    if bt["rainbow"]:
+        hue = (_frame_counter * 2 + offset) % 360
+        h = hue / 60.0
+        i = int(h)
+        f = h - i
+        q = int(255 * (1 - f))
+        t = int(255 * f)
+        sectors = [(255, t, 0), (q, 255, 0), (0, 255, t), (0, q, 255), (t, 0, 255), (255, 0, q)]
+        return sectors[i % 6]
+    if bt["bw"]:
+        v = int(127 + 127 * math.sin(_frame_counter * 0.05 + offset * 0.1))
+        return (v, v, v)
+    return bt["color"]
 
 # Collision types
 BALL_CT = 1
@@ -263,7 +282,8 @@ def draw_scoreboard(screen, font, small_font, total_score, ball_counts, eliminat
         is_elim = idx in eliminated
 
         # Color swatch (dimmed if eliminated)
-        color = bt["color"] if not is_elim else tuple(c // 3 for c in bt["color"])
+        base_color = get_ball_color(bt)
+        color = base_color if not is_elim else tuple(c // 3 for c in base_color)
         swatch_y = y + row_height // 2 - 1
         pygame.draw.circle(screen, color, (scoreboard_x + 16, swatch_y), 6)
         if bt["sparkly"]:
@@ -301,6 +321,7 @@ def draw_scoreboard(screen, font, small_font, total_score, ball_counts, eliminat
         "R: Reset scores",
         "Speed: +/-",
         "F11: Fullscreen",
+        "H: All-time wins",
     ]
     for line in instructions:
         text = small_font.render(line, True, (140, 140, 160))
@@ -354,7 +375,8 @@ def emit_sparkle_trail(ball):
     if _frame_counter % SPARKLE_TRAIL_INTERVAL != 0:
         return
     x, y = ball.body.position.x, ball.body.position.y
-    bright = tuple(min(255, c + 100) for c in bt["color"])
+    base_color = get_ball_color(bt, offset=ball.ball_type * 20)
+    bright = tuple(min(255, c + 100) for c in base_color)
     _sparkle_trails.append((
         x + random.uniform(-3, 3),
         y + random.uniform(-3, 3),
@@ -367,7 +389,7 @@ def draw_ball(screen, ball, ball_radius):
     """Draw a ball with a slight shading effect. Sparkly balls get animated sparkles."""
     pos = int(ball.body.position.x), int(ball.body.position.y)
     bt = BALL_TYPES[ball.ball_type]
-    color = bt["color"]
+    color = get_ball_color(bt, offset=ball.ball_type * 20)
 
     pygame.draw.circle(screen, color, pos, ball_radius)
 
@@ -376,7 +398,8 @@ def draw_ball(screen, ball, ball_radius):
     pygame.draw.circle(screen, highlight_color, highlight_pos, ball_radius // 3)
 
     if bt["sparkly"]:
-        pygame.draw.circle(screen, (255, 255, 255), pos, ball_radius, 1)
+        ring_color = (255, 255, 255) if not bt["rainbow"] else get_ball_color(bt, offset=ball.ball_type * 20 + 60)
+        pygame.draw.circle(screen, ring_color, pos, ball_radius, 1)
         num_sparkles = 3
         speed = 0.08
         base_angle = _frame_counter * speed + ball.ball_type * 0.7
@@ -385,8 +408,11 @@ def draw_ball(screen, ball, ball_radius):
             r = ball_radius + 2
             sx = pos[0] + int(r * math.cos(angle))
             sy = pos[1] + int(r * math.sin(angle))
-            brightness = int(180 + 75 * math.sin(_frame_counter * 0.15 + i * 2.0))
-            spark_color = (brightness, brightness, brightness)
+            if bt["rainbow"]:
+                spark_color = get_ball_color(bt, offset=ball.ball_type * 20 + i * 40)
+            else:
+                brightness = int(180 + 75 * math.sin(_frame_counter * 0.15 + i * 2.0))
+                spark_color = (brightness, brightness, brightness)
             pygame.draw.circle(screen, spark_color, (sx, sy), 1)
 
 
@@ -424,7 +450,8 @@ def draw_game_over(screen, font, winner_idx, wins, countdown_seconds, maze_info)
     box_w, box_h = 400, 380
     box_rect = pygame.Rect(cx - box_w // 2, cy - box_h // 2, box_w, box_h)
     pygame.draw.rect(screen, (30, 30, 50), box_rect, border_radius=12)
-    pygame.draw.rect(screen, bt["color"], box_rect, 3, border_radius=12)
+    win_color = get_ball_color(bt)
+    pygame.draw.rect(screen, win_color, box_rect, 3, border_radius=12)
 
     y_pos = cy - box_h // 2 + 20
 
@@ -433,12 +460,12 @@ def draw_game_over(screen, font, winner_idx, wins, countdown_seconds, maze_info)
     screen.blit(title, (cx - title.get_width() // 2, y_pos))
     y_pos += 50
 
-    winner_text = font.render(f"{bt['name']} wins!", True, bt["color"])
+    winner_text = font.render(f"{bt['name']} wins!", True, win_color)
     screen.blit(winner_text, (cx - winner_text.get_width() // 2, y_pos))
     y_pos += 30
 
-    pygame.draw.circle(screen, bt["color"], (cx, y_pos + 10), 16)
-    highlight = tuple(min(255, c + 80) for c in bt["color"])
+    pygame.draw.circle(screen, win_color, (cx, y_pos + 10), 16)
+    highlight = tuple(min(255, c + 80) for c in win_color)
     pygame.draw.circle(screen, highlight, (cx - 4, y_pos + 6), 5)
     y_pos += 35
 
@@ -467,6 +494,49 @@ def draw_game_over(screen, font, winner_idx, wins, countdown_seconds, maze_info)
     y_pos = cy + box_h // 2 - 30
     countdown_text = font.render(f"Restarting in {countdown_seconds}s  (R to restart now)", True, (140, 140, 160))
     screen.blit(countdown_text, (cx - countdown_text.get_width() // 2, y_pos))
+
+
+def draw_wins_overlay(screen, font, small_font, wins, maze_info):
+    """Draw a wins history overlay while H is held."""
+    w, h = maze_info["width"], maze_info["height"]
+    cx = w // 2
+
+    sorted_wins = sorted(BALL_TYPES, key=lambda b: wins.get(b["name"], 0), reverse=True)
+    has_wins = any(wins.get(b["name"], 0) > 0 for b in sorted_wins)
+
+    rows = [b for b in sorted_wins if wins.get(b["name"], 0) > 0]
+    row_h = 22
+    box_h = 55 + max(1, len(rows)) * row_h
+    box_w = 260
+    box_x = cx - box_w // 2
+    box_y = maze_info["maze_top"] + 40
+
+    overlay = pygame.Surface((box_w, box_h), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, 180))
+    screen.blit(overlay, (box_x, box_y))
+    pygame.draw.rect(screen, (80, 80, 110), (box_x, box_y, box_w, box_h), 2, border_radius=6)
+
+    title = font.render("All-Time Wins", True, (220, 220, 240))
+    screen.blit(title, (cx - title.get_width() // 2, box_y + 10))
+
+    y = box_y + 35
+    if not has_wins:
+        no_wins = small_font.render("No wins recorded yet", True, (140, 140, 160))
+        screen.blit(no_wins, (cx - no_wins.get_width() // 2, y))
+    else:
+        for i, btype in enumerate(rows):
+            wc = wins.get(btype["name"], 0)
+            dot_color = get_ball_color(btype)
+            pygame.draw.circle(screen, dot_color, (box_x + 20, y + 8), 6)
+            rank = f"{i+1}."
+            rank_surf = small_font.render(rank, True, (160, 160, 180))
+            screen.blit(rank_surf, (box_x + 32, y + 1))
+            name_surf = small_font.render(f"{btype['name']}: {wc}", True, (200, 200, 210))
+            screen.blit(name_surf, (box_x + 55, y + 1))
+            y += row_h
+
+    hint = small_font.render("Hold H for wins", True, (80, 80, 100))
+    screen.blit(hint, (cx - hint.get_width() // 2, box_y + box_h + 4))
 
 
 def draw_buckets(screen, font, small_font, bucket_counts, level):
@@ -866,7 +936,7 @@ def main():
         draw_ball_counter(game_surface, small_font, len(balls) + pending, gs["ball_limit"], gs["maze"])
 
         sel_text = small_font.render(f"Selected: {BALL_TYPES[selected_type]['name']}", True,
-                                     BALL_TYPES[selected_type]["color"])
+                                     get_ball_color(BALL_TYPES[selected_type]))
         game_surface.blit(sel_text, (gs["maze"]["maze_left"] + 200, gs["maze"]["maze_top"] - 25))
 
         # Level name display
@@ -880,6 +950,10 @@ def main():
         if game_over and winner is not None:
             countdown = max(0, AUTO_RESTART_SECONDS - game_over_timer // FPS)
             draw_game_over(game_surface, font, winner, wins, countdown, gs["maze"])
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_h]:
+            draw_wins_overlay(game_surface, font, small_font, wins, gs["maze"])
 
         # Scale game surface to window/fullscreen
         screen.fill((0, 0, 0))
