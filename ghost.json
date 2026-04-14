@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "name": "Default Level",
+  "name": "Ghost",
   "maze": {
     "width": 800,
     "height": 1000,
@@ -2681,5 +2681,5 @@
     900
   ],
   "ball_radius": 8,
-  "ball_limit": 160
+  "ball_limit": 100
 }
